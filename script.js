@@ -23,16 +23,19 @@ const onClickButton = () => {
 
 const updateValue = (event) => {
   valueInput = event.target.value;
-  // console.log("event.target.value;", event.target.value);
 };
 
 const render = () => {
   const content = document.getElementById("content-page");
 
   while (content.firstChild) {
-    content.removeChild(content.firstChild);
+    content.removeChild(content.firstChild)
   }
-  allTask.sort((a, b) => {return a.isCheck - b.isCheck});
+
+  allTask.sort((a, b) =>  {
+    return a.isCheck - b.isCheck
+  });
+
   allTask.map((item, index) => {
   
     const container = document.createElement("div");
@@ -42,7 +45,7 @@ const render = () => {
     checkbox.type = "checkbox";
     checkbox.checked = item.isCheck;
     checkbox.className = "check";
-    checkbox.onchange = function () {
+    checkbox.onchange = () => {
       onChangeCheckbox(index);
     };
     container.appendChild(checkbox);
@@ -51,13 +54,12 @@ const render = () => {
     
       const editInput = document.createElement("input");
       editInput.type = "text";
-      editInput.className = "type1";
+      editInput.className = "textChange";
       editInput.value = item.text;
       editInput.addEventListener("change", updateTaskText);
     
       container.appendChild(editInput);
     } else {
-    
       const text = document.createElement("p");
       text.innerText = item.text;
       text.className = item.isCheck ? "task-done" : "task";
@@ -66,25 +68,25 @@ const render = () => {
 
     if (!item.isCheck) {
       if (index === flag) {
-      
         const imageOk = document.createElement("img");
         imageOk.src = "img/ok.png";
         imageOk.type = "button";
-        imageOk.className = "but";
+        imageOk.className = "buttonClick";
 
         const imageCancel = document.createElement("img");
         imageCancel.src = "img/otmena.jpg";
         imageCancel.type = "button";
-        imageCancel.className = "but";
+        imageCancel.className = "buttonClick";
       
-        imageOk.onclick = function () {
+        imageOk.onclick = () => {
           saveResult(index);
           doneEditTask();
         };
 
-        imageCancel.onclick = function () {
+        imageCancel.onclick = () => {
           doneEditTask();
         };
+
         container.appendChild(imageOk);
         container.appendChild(imageCancel);
       } else {
@@ -92,8 +94,8 @@ const render = () => {
         const imageEdit = document.createElement("img");
         imageEdit.src = "img/111.png";
         imageEdit.type = "button";
-        imageEdit.className = "but";
-        imageEdit.onclick = function () {
+        imageEdit.className = "buttonClick";
+        imageEdit.onclick = () => {
           flag = index;
           render();
         };
@@ -103,15 +105,14 @@ const render = () => {
     const imageDel = document.createElement("img");
     imageDel.src = "img/222.png";
     imageDel.type = "button";
-    imageDel.className = "but";
-    imageDel.onclick = function () {
+    imageDel.className = "buttonClick";
+    imageDel.onclick = () => {
       deleteTask(index);
     };
     container.appendChild(imageDel);
 
     content.appendChild(container);
   });
-  // console.log(content);
 };
 
 const onChangeCheckbox = (index) => {
