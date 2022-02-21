@@ -37,10 +37,8 @@ const render = () => {
   });
 
   allTask.map((item, index) => {
-  
     const container = document.createElement("div");
     container.id = `task-${index}`;
-  
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = item.isCheck;
@@ -51,13 +49,11 @@ const render = () => {
     container.appendChild(checkbox);
 
     if (index === flag) {
-    
       const editInput = document.createElement("input");
       editInput.type = "text";
       editInput.className = "textChange";
       editInput.value = item.text;
       editInput.addEventListener("change", updateTaskText);
-    
       container.appendChild(editInput);
     } else {
       const text = document.createElement("p");
@@ -72,25 +68,20 @@ const render = () => {
         imageOk.src = "img/ok.png";
         imageOk.type = "button";
         imageOk.className = "buttonClick";
-
         const imageCancel = document.createElement("img");
         imageCancel.src = "img/otmena.jpg";
         imageCancel.type = "button";
         imageCancel.className = "buttonClick";
-      
         imageOk.onclick = () => {
           saveResult(index);
           doneEditTask();
         };
-
         imageCancel.onclick = () => {
           doneEditTask();
         };
-
         container.appendChild(imageOk);
         container.appendChild(imageCancel);
       } else {
-      
         const imageEdit = document.createElement("img");
         imageEdit.src = "img/111.png";
         imageEdit.type = "button";
@@ -110,7 +101,6 @@ const render = () => {
       deleteTask(index);
     };
     container.appendChild(imageDel);
-
     content.appendChild(container);
   });
 };
