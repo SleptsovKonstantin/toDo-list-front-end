@@ -4,7 +4,7 @@ let input = null;
 let flag = null;
 let intermedateResult = "";
 
-window.onload = function init() {
+window.onload = init = () => {
   input = document.getElementById("add-task");
   input.addEventListener("change", updateValue);
   render();
@@ -43,7 +43,7 @@ const render = () => {
     checkbox.type = "checkbox";
     checkbox.checked = item.isCheck;
     checkbox.className = "check";
-    checkbox.onchange = () => { onChangeCheckbox(index) };
+    checkbox.onchange = () => onChangeCheckbox(index);
     container.appendChild(checkbox);
 
     if (index === flag) {
@@ -74,7 +74,7 @@ const render = () => {
           saveResult(index);
           doneEditTask();
         };
-        imageCancel.onclick = () => { doneEditTask() };
+        imageCancel.onclick = () => doneEditTask();
         container.appendChild(imageOk);
         container.appendChild(imageCancel);
       } else {
@@ -93,7 +93,7 @@ const render = () => {
     imageDel.src = "img/222.png";
     imageDel.type = "button";
     imageDel.className = "buttonClick";
-    imageDel.onclick = () => { deleteTask(index) };
+    imageDel.onclick = () => deleteTask(index);
     container.appendChild(imageDel);
     content.appendChild(container);
   });
