@@ -1,4 +1,3 @@
-
 let allTask = [];
 
 let valueInput = "";
@@ -14,7 +13,6 @@ window.onload = init = async () => {
   });
   let result = await resp.json();
   allTask = result.data;
-  console.log("result", result);
   render();
 };
 
@@ -121,8 +119,6 @@ const render = () => {
 const onChangeCheckbox = async (index) => {
   let { id, isCheck } = allTask[index];
   isCheck = !isCheck;
-  console.log("id", id);
-  console.log("isCheck", isCheck);
 
   const resp = await fetch(`http://localhost:8000/updateTask`, {
     method: "PATCH",
@@ -147,7 +143,6 @@ const deleteTask = async (index) => {
   });
   let result = await resp.json();
   allTask = result.data;
-  console.log(allTask);
   render();
 };
 
