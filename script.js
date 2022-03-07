@@ -14,7 +14,7 @@ window.onload = init = async () => {
   let result = await resp.json();
   allTask = result.data;
   render();
-};
+};     
 
 const onClickButton = async () => {
   allTask.push({
@@ -160,7 +160,7 @@ const saveResult = async (index) => {
       "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify({
-      id: id,
+      id,
       text: intermedateResult,
     }),
   });
@@ -175,13 +175,13 @@ const doneEditTask = () => {
 };
 
 const deleteArr = () => {
-  allTask.forEach(async(item) => {
-  let ide = item.id;
-  const resp = await fetch(`http://localhost:8000/deleteTask?id=${ide}`, {
-    method: "DELETE",
+  allTask.forEach(async (item) => {
+    let ide = item.id;
+    const resp = await fetch(`http://localhost:8000/deleteTask?id=${ide}`, {
+      method: "DELETE",
+    });
+    let result = await resp.json();
+    allTask = result.data;
+    render();
   });
-  let result = await resp.json();
-  allTask = result.data;
-  render();
-  })
 };
