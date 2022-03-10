@@ -1,7 +1,26 @@
+body {
+  background: rgb(233, 230, 230);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.list {
+  background: rgb(189, 174, 174);
+  box-shadow: 15px 10px 15px rgb(0 0 0 / 30%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 25px;
+  width: 80%;
+  height: 80%;
+}
+
 .todo {
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 }
 
 .todo input {
@@ -10,13 +29,15 @@
 
 .todo button {
   margin: 10px;
+  cursor: pointer;
 }
 
 #content-page {
-  display: flex;
-  flex-direction: column;
-  margin-top: 15px;
-  margin-left: 40%;
+
+  /* display: flex;
+  flex-direction: column; */
+  /* margin-top: 15px;
+  margin-left: 40%; */
 }
 
 #content-page div {
@@ -25,12 +46,23 @@
   margin-top: 5px;
 }
 
+.newTask {
+  box-shadow: 15px 10px 15px rgb(0 0 0 / 30%);
+  height: 30px;
+  margin: 19px;
+  padding: 5px;
+  background: #ffffff66;
+  border-radius: 25px;
+  /* box-shadow:20px 20px 50px white inset; */
+}
+
 .task {
   color: black;
+  border: 1px black;
 }
 
 .task-done {
-  color: red;
+  color: rgb(53, 141, 58);
   text-decoration: line-through;
 }
 

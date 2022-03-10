@@ -8,34 +8,37 @@ let intermedateResult = "";
 window.onload = init = async () => {
   input = document.getElementById("add-task");
   input.addEventListener("change", updateValue);
-  const resp = await fetch("http://localhost:8000/allTasks", {
+  const resp = await fetch("http://localhost:3000/allTasks", {
     method: "GET",
   });
   let result = await resp.json();
   allTask = result.data;
   render();
-};     
+};
 
 const onClickButton = async () => {
-  allTask.push({
-    text: valueInput,
-    isCheck: false,
-  });
-  const resp = await fetch("http://localhost:8000/createTask", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-      "Access-Control-Allow-Origin": "*",
-    },
-    body: JSON.stringify({
+  if (valueInput !== "") {
+    allTask.push({
       text: valueInput,
       isCheck: false,
-    }),
-  });
-  let result = await resp.json();
-  allTask = result.data;
-  input.value = "";
-  render();
+    });
+    const resp = await fetch("http://localhost:3000/createTask", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        text: valueInput,
+        isCheck: false,
+      }),
+    });
+    let result = await resp.json();
+    allTask = result.data;
+    input.value = "";
+    valueInput = "";
+    render();
+  }
 };
 
 const updateValue = (event) => {
@@ -48,7 +51,6 @@ const render = () => {
   while (content.firstChild) {
     content.removeChild(content.firstChild);
   }
-
   allTask.sort((a, b) => {
     return a.isCheck - b.isCheck;
   });
@@ -56,6 +58,7 @@ const render = () => {
   allTask.map((item, index) => {
     const container = document.createElement("div");
     container.id = `task-${index}`;
+    container.className = "newTask";
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = item.isCheck;
@@ -104,23 +107,24 @@ const render = () => {
           render();
         };
         container.appendChild(imageEdit);
+        const imageDel = document.createElement("img");
+        imageDel.src = "img/222.png";
+        imageDel.type = "button";
+        imageDel.className = "buttonClick";
+        imageDel.onclick = () => deleteTask(index);
+        container.appendChild(imageDel);
       }
     }
-    const imageDel = document.createElement("img");
-    imageDel.src = "img/222.png";
-    imageDel.type = "button";
-    imageDel.className = "buttonClick";
-    imageDel.onclick = () => deleteTask(index);
-    container.appendChild(imageDel);
+
     content.appendChild(container);
   });
 };
 
 const onChangeCheckbox = async (index) => {
-  let { id, isCheck } = allTask[index];
+  let { isCheck } = allTask[index];
+  let id = allTask[index]._id;
   isCheck = !isCheck;
-
-  const resp = await fetch(`http://localhost:8000/updateTask`, {
+  const resp = await fetch(`http://localhost:3000/updateTask`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -137,8 +141,8 @@ const onChangeCheckbox = async (index) => {
 };
 
 const deleteTask = async (index) => {
-  let id = allTask[index].id;
-  const resp = await fetch(`http://localhost:8000/deleteTask?id=${id}`, {
+  let id = allTask[index]._id;
+  const resp = await fetch(`http://localhost:3000/deleteTask?_id=${id}`, {
     method: "DELETE",
   });
   let result = await resp.json();
@@ -151,22 +155,24 @@ const updateTaskText = (event) => {
 };
 
 const saveResult = async (index) => {
-  allTask[index].text = intermedateResult;
-  let id = allTask[index].id;
-  const resp = await fetch(`http://localhost:8000/updateTask`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-      "Access-Control-Allow-Origin": "*",
-    },
-    body: JSON.stringify({
-      id,
-      text: intermedateResult,
-    }),
-  });
-  let result = await resp.json();
-  allTask = result.data;
-  intermedateResult = "";
+  if (intermedateResult !== "") {
+    allTask[index].text = intermedateResult;
+    let id = allTask[index]._id;
+    const resp = await fetch(`http://localhost:3000/updateTask`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        id,
+        text: intermedateResult,
+      }),
+    });
+    let result = await resp.json();
+    allTask = result.data;
+    intermedateResult = "";
+  }
 };
 
 const doneEditTask = () => {
@@ -174,14 +180,15 @@ const doneEditTask = () => {
   render();
 };
 
-const deleteArr = () => {
-  allTask.forEach(async (item) => {
-    let ide = item.id;
-    const resp = await fetch(`http://localhost:8000/deleteTask?id=${ide}`, {
-      method: "DELETE",
-    });
-    let result = await resp.json();
-    allTask = result.data;
-    render();
+const deleteArr = async () => {
+  const resp = await fetch(`http://localhost:3000/clearTask`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+      "Access-Control-Allow-Origin": "*",
+    },
   });
+  let result = await resp.json();
+  allTask = result.data;
+  render();
 };
