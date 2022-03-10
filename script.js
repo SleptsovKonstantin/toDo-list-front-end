@@ -1,5 +1,4 @@
 let allTask = [];
-
 let valueInput = "";
 let input = null;
 let flag = null;
@@ -11,17 +10,13 @@ window.onload = init = async () => {
   const resp = await fetch("http://localhost:3000/allTasks", {
     method: "GET",
   });
-  let result = await resp.json();
+  const result = await resp.json();
   allTask = result.data;
   render();
 };
 
 const onClickButton = async () => {
   if (valueInput !== "") {
-    allTask.push({
-      text: valueInput,
-      isCheck: false,
-    });
     const resp = await fetch("http://localhost:3000/createTask", {
       method: "POST",
       headers: {
@@ -33,7 +28,7 @@ const onClickButton = async () => {
         isCheck: false,
       }),
     });
-    let result = await resp.json();
+    const result = await resp.json();
     allTask = result.data;
     input.value = "";
     valueInput = "";
@@ -135,7 +130,7 @@ const onChangeCheckbox = async (index) => {
       isCheck,
     }),
   });
-  let result = await resp.json();
+  const result = await resp.json();
   allTask = result.data;
   render();
 };
@@ -145,7 +140,7 @@ const deleteTask = async (index) => {
   const resp = await fetch(`http://localhost:3000/deleteTask?_id=${id}`, {
     method: "DELETE",
   });
-  let result = await resp.json();
+  const result = await resp.json();
   allTask = result.data;
   render();
 };
@@ -169,7 +164,7 @@ const saveResult = async (index) => {
         text: intermedateResult,
       }),
     });
-    let result = await resp.json();
+    const result = await resp.json();
     allTask = result.data;
     intermedateResult = "";
   }
@@ -188,7 +183,7 @@ const deleteArr = async () => {
       "Access-Control-Allow-Origin": "*",
     },
   });
-  let result = await resp.json();
+  const result = await resp.json();
   allTask = result.data;
   render();
 };
